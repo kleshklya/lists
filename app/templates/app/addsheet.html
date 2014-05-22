@@ -1,7 +1,7 @@
 {% extends "app/base.html" %}
 {% load staticfiles %}
 {% block base_content %}
-
+{% if not sheet_created %}
 
 <h1>Add sheet</h1>
 <form role="form" method="POST" action="{% url 'app.views.addsheet' %}">
@@ -30,4 +30,7 @@
 
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
+{% else %}
+sheet created
+{% endif %}
 {% endblock %}

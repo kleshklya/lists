@@ -1,0 +1,7 @@
+{% extends "app/base.html" %}
+{% load staticfiles %}
+{% block base_content %}
+{% for sheet in view_sheets %}
+Sheet id: {{ sheet.id }} | Sheet name: {{ sheet.name }} | Created on {{ sheet.date }} <br>
+{% endfor %}
+{% endblock %}

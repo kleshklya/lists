@@ -81,3 +81,59 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'log_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/tmp/lists_log.txt',
+            'maxBytes': 256000,
+            'backupCount': 10,
+            'formatter': 'standard'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],  #'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django_mailer': {
+             'handlers': ['console'],
+             'level': 'WARNING',
+             'propagate': False,
+        },
+        '': {
+            'handlers': ['console', 'log_file', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': False,
+        }
+    }
+}
